@@ -4,8 +4,19 @@ import * as BooksAPI from './BooksAPI'
 import './App.css'
 import SearchArea from './SearchArea'
 
+// How are we going to handle varying image dimensions?
+// Maybe they can come from the api?
+// How do I get books I am currently reading? Books I want to read and Books I have read?
+
+// To render this properly we need to go to the API.
+/*class BookShelf extends React.Component {
+  render() {
+    return(
 
 
+    )
+  }
+}*/
 
 class BooksApp extends React.Component {
   // Adding this constructor ensures the this binding within hideSearchPage()
@@ -15,6 +26,9 @@ class BooksApp extends React.Component {
   }
   
   
+
+
+
   state = {
     /**
      * TODO: Instead of using this state variable to keep track of which page
@@ -22,7 +36,26 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    showSearchPage: true
+    showSearchPage: false,
+    currentlyReading: null,
+    allBooks: null
+    
+  }
+
+  componentDidMount() {
+    console.log('component did mount');
+
+    // I'm doing this here because I don't want the API call to run every time the search
+    // component mounts
+
+    BooksAPI.getAll().then(books => this.setState({
+      allBooks: books
+    }))
+
+  //  this.state.allBooks = BooksAPI.getAll();
+    console.log('Here are the loaded books:');
+    console.log(this.state.allBooks);
+
   }
 
   hideSearchPage() {
@@ -32,15 +65,20 @@ class BooksApp extends React.Component {
   }
 
   render() {
+    console.log('Is it possible to disable the button that links you to the search or something in case the books are not loaded yet?');
+    console.log(this.state.allBooks);
+
+
+
     return (
       <div className="app">
         {this.state.showSearchPage ? (
-          <SearchArea onHideSearch={this.hideSearchPage}/>
+          <SearchArea books={this.state.allBooks} onHideSearch={this.hideSearchPage}/>
         ) : (
 
           // We also have different bookshelves
           // We should be able to create bookshelves.
-
+          // Bookshelves will need to contain their books!
 
 
           <div className="list-books">
@@ -82,7 +120,7 @@ class BooksApp extends React.Component {
 
                         <div className="book">
                           <div className="book-top">
-                            <div className="book-cover" style={{ width: 128, height: 188, backgroundImage: 'url("http://books.google.com/books/content?id=yDtCuFHXbAYC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72RRiTR6U5OUg3IY_LpHTL2NztVWAuZYNFE8dUuC0VlYabeyegLzpAnDPeWxE6RHi0C2ehrR9Gv20LH2dtjpbcUcs8YnH5VCCAH0Y2ICaKOTvrZTCObQbsfp4UbDqQyGISCZfGN&source=gbs_api")' }}></div>
+                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url("http://books.google.com/books/content?id=yDtCuFHXbAYC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72RRiTR6U5OUg3IY_LpHTL2NztVWAuZYNFE8dUuC0VlYabeyegLzpAnDPeWxE6RHi0C2ehrR9Gv20LH2dtjpbcUcs8YnH5VCCAH0Y2ICaKOTvrZTCObQbsfp4UbDqQyGISCZfGN&source=gbs_api")' }}></div>
                             <div className="book-shelf-changer">
 
                               <select>
@@ -130,7 +168,7 @@ class BooksApp extends React.Component {
                       <li>
                         <div className="book">
                           <div className="book-top">
-                            <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: 'url("http://books.google.com/books/content?id=wrOQLV6xB-wC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72G3gA5A-Ka8XjOZGDFLAoUeMQBqZ9y-LCspZ2dzJTugcOcJ4C7FP0tDA8s1h9f480ISXuvYhA_ZpdvRArUL-mZyD4WW7CHyEqHYq9D3kGnrZCNiqxSRhry8TiFDCMWP61ujflB&source=gbs_api")' }}></div>
+                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url("http://books.google.com/books/content?id=wrOQLV6xB-wC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72G3gA5A-Ka8XjOZGDFLAoUeMQBqZ9y-LCspZ2dzJTugcOcJ4C7FP0tDA8s1h9f480ISXuvYhA_ZpdvRArUL-mZyD4WW7CHyEqHYq9D3kGnrZCNiqxSRhry8TiFDCMWP61ujflB&source=gbs_api")' }}></div>
                             <div className="book-shelf-changer">
                               <select>
                                 <option value="none" disabled>Move to...</option>
@@ -155,7 +193,7 @@ class BooksApp extends React.Component {
                       <li>
                         <div className="book">
                           <div className="book-top">
-                            <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: 'url("http://books.google.com/books/content?id=pD6arNyKyi8C&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE70Rw0CCwNZh0SsYpQTkMbvz23npqWeUoJvVbi_gXla2m2ie_ReMWPl0xoU8Quy9fk0Zhb3szmwe8cTe4k7DAbfQ45FEzr9T7Lk0XhVpEPBvwUAztOBJ6Y0QPZylo4VbB7K5iRSk&source=gbs_api")' }}></div>
+                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url("http://books.google.com/books/content?id=pD6arNyKyi8C&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE70Rw0CCwNZh0SsYpQTkMbvz23npqWeUoJvVbi_gXla2m2ie_ReMWPl0xoU8Quy9fk0Zhb3szmwe8cTe4k7DAbfQ45FEzr9T7Lk0XhVpEPBvwUAztOBJ6Y0QPZylo4VbB7K5iRSk&source=gbs_api")' }}></div>
                             <div className="book-shelf-changer">
                               <select>
                                 <option value="none" disabled>Move to...</option>
@@ -173,7 +211,7 @@ class BooksApp extends React.Component {
                       <li>
                         <div className="book">
                           <div className="book-top">
-                            <div className="book-cover" style={{ width: 128, height: 174, backgroundImage: 'url("http://books.google.com/books/content?id=1q_xAwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE712CA0cBYP8VKbEcIVEuFJRdX1k30rjLM29Y-dw_qU1urEZ2cQ42La3Jkw6KmzMmXIoLTr50SWTpw6VOGq1leINsnTdLc_S5a5sn9Hao2t5YT7Ax1RqtQDiPNHIyXP46Rrw3aL8&source=gbs_api")' }}></div>
+                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url("http://books.google.com/books/content?id=1q_xAwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE712CA0cBYP8VKbEcIVEuFJRdX1k30rjLM29Y-dw_qU1urEZ2cQ42La3Jkw6KmzMmXIoLTr50SWTpw6VOGq1leINsnTdLc_S5a5sn9Hao2t5YT7Ax1RqtQDiPNHIyXP46Rrw3aL8&source=gbs_api")' }}></div>
                             <div className="book-shelf-changer">
                               <select>
                                 <option value="none" disabled>Move to...</option>
@@ -191,7 +229,7 @@ class BooksApp extends React.Component {
                       <li>
                         <div className="book">
                           <div className="book-top">
-                            <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: 'url("http://books.google.com/books/content?id=32haAAAAMAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72yckZ5f5bDFVIf7BGPbjA0KYYtlQ__nWB-hI_YZmZ-fScYwFy4O_fWOcPwf-pgv3pPQNJP_sT5J_xOUciD8WaKmevh1rUR-1jk7g1aCD_KeJaOpjVu0cm_11BBIUXdxbFkVMdi&source=gbs_api")' }}></div>
+                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url("http://books.google.com/books/content?id=32haAAAAMAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72yckZ5f5bDFVIf7BGPbjA0KYYtlQ__nWB-hI_YZmZ-fScYwFy4O_fWOcPwf-pgv3pPQNJP_sT5J_xOUciD8WaKmevh1rUR-1jk7g1aCD_KeJaOpjVu0cm_11BBIUXdxbFkVMdi&source=gbs_api")' }}></div>
                             <div className="book-shelf-changer">
                               <select>
                                 <option value="none" disabled>Move to...</option>
