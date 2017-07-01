@@ -1,12 +1,20 @@
 import React from 'react'
+
 import * as BooksAPI from './BooksAPI'
 import './App.css'
-
+import SearchArea from './SearchArea'
 
 
 
 
 class BooksApp extends React.Component {
+  // Adding this constructor ensures the this binding within hideSearchPage()
+  constructor(props) {
+    super(props)
+    this.hideSearchPage = this.hideSearchPage.bind(this)
+  }
+  
+  
   state = {
     /**
      * TODO: Instead of using this state variable to keep track of which page
@@ -14,45 +22,40 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    showSearchPage: false
+    showSearchPage: true
+  }
+
+  hideSearchPage() {
+    this.setState({
+      showSearchPage: false
+    })
   }
 
   render() {
     return (
       <div className="app">
         {this.state.showSearchPage ? (
-
-          // Get this into a component named SearchBar
-          <div className="search-books">
-            <div className="search-books-bar">
-              <a className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</a>
-              <div className="search-books-input-wrapper">
-                <input type="text" placeholder="Search by title or author"/>
-              </div>
-            </div>
-            
-            <div className="search-books-results">
-              <ol className="books-grid"></ol>
-            </div>
-          </div>
-          // Maybe two components? Extract to second and maybe third file.
-          // I think you can set the state above in the parent. Check vid.
-
-
+          <SearchArea onHideSearch={this.hideSearchPage}/>
         ) : (
+
+          // We also have different bookshelves
+          // We should be able to create bookshelves.
+
+
+
           <div className="list-books">
             <div className="list-books-title">
               <h1>MyReads</h1>
             </div>
             <div className="list-books-content">
               <div>
+
+
                 <div className="bookshelf">
                   <h2 className="bookshelf-title">Currently Reading</h2>
                   <div className="bookshelf-books">
                     <ol className="books-grid">
                       <li>
-
-
                         <div className="book">
                           <div className="book-top">
                             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url("http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api")' }}></div>
