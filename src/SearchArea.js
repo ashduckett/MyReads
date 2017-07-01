@@ -1,14 +1,13 @@
 import React from 'react'
+import escapeRegExp from 'escape-string-regexp'
+import sortBy from 'sort-by'
 
 class BooksGrid extends React.Component {
   render() {
-    console.log('from booksgrid');
-    console.log(this.props.books);
     return(
-
-      // You need to map over these things
       // Should do something with authors, it being an array and all
-      // Get the images working
+      // THEN: Tidy up
+      // THEN: Get the API working
       <ol className="books-grid">
         {this.props.books.map((book) => (
           <li key={book.id}>
@@ -30,9 +29,7 @@ class BooksGrid extends React.Component {
               </div>
             </li>
         ))}
-            
-
-          </ol>
+      </ol>
     )
   }
 }
@@ -46,29 +43,36 @@ class SearchArea extends React.Component {
     query: ''
   }
 
-  handleChange = (event) => {
-    this.setState({query: event.target.value})
-  }
+  handleChange = (query) => {
+    this.setState({query: query})
 
-  componentDidMount() {
-    console.log('search component did mount');
+    // if the query is empty, return this.props.books, otherwise return the filtered ones.
+    // You'll need to add the regexp stuff to make the magic happen.
   }
 
   render() {
+
+    let showingBooks
+
+    if(this.state.query) {
+      const match = new RegExp(escapeRegExp(this.state.query), 'i')
+      showingBooks = this.props.books.filter((book) => match.test(book.title))
+    } else {
+      showingBooks = this.props.books
+    }
+
+
     return(
       // Find out about the function call because you want to set the state on the BooksApp component.
       <div className="search-books">
         <div className="search-books-bar">
-          
           <a className="close-search" onClick={() => this.props.onHideSearch()}>Close</a>
           <div className="search-books-input-wrapper">
-            <input type="text" value={this.state.query} placeholder="Search by title or author" onChange={this.handleChange}/>
+            <input type="text" value={this.state.query} placeholder="Search by title or author" onChange={(event) => this.handleChange(event.target.value)}/>
           </div>
         </div>
-       
         <div className="search-books-results">
-
-          <BooksGrid books={this.props.books}/>
+          <BooksGrid books={showingBooks}/>
         </div>          
       </div>
     )
