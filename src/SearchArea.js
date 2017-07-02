@@ -7,6 +7,8 @@ import * as BooksAPI from './BooksAPI'
 /*
   On initially rendering the search area, show nothing.
 
+  Each book needs to have its own state so the select tool has an appropriate value.
+
 */
 
 

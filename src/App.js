@@ -1,5 +1,4 @@
 import React from 'react'
-
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 import SearchArea from './SearchArea'
@@ -18,7 +17,7 @@ class BookShelf extends React.Component {
       <div className="bookshelf">
         <h2 className="bookshelf-title">{this.props.title}</h2>
         <div className="bookshelf-books">
-          <BooksGrid onUpdateBook={this.updateBook} books={this.props.books ? this.props.books : [] }/>
+          <BooksGrid onUpdateBook={this.props.onUpdateBook} books={this.props.books ? this.props.books : [] }/>
         </div>
       </div>
     )
@@ -88,16 +87,16 @@ class BooksApp extends React.Component {
 
       <div className="app">
         {this.state.showSearchPage ? (
-          <SearchArea onHideSearch={this.hideSearchPage}/>
+          <SearchArea onUpdateBook={this.updateBook} onHideSearch={this.hideSearchPage}/>
         ) : (
           <div className="list-books">
             <div className="list-books-title">
               <h1>MyReads</h1>
             </div>
             <div className="list-books-content">
-              <BookShelf title="Currently Reading" books={ currentlyReading }/>
-              <BookShelf title="Want to Read" books={ wantToRead }/>
-              <BookShelf title="Read" books={ read }/>
+              <BookShelf onUpdateBook={this.updateBook} title="Currently Reading" books={ currentlyReading }/>
+              <BookShelf onUpdateBook={this.updateBook} title="Want to Read" books={ wantToRead }/>
+              <BookShelf onUpdateBook={this.updateBook} title="Read" books={ read }/>
             </div>
 
             <div className="open-search">
