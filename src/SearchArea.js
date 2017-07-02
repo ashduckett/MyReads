@@ -1,13 +1,10 @@
 import React from 'react'
-import escapeRegExp from 'escape-string-regexp'
 import sortBy from 'sort-by'
-import BooksGrid from './BooksGrid'
+import Book from './Book'
 import * as BooksAPI from './BooksAPI'
 import { Link } from 'react-router-dom'
 
 class SearchArea extends React.Component {
-  // The state for this component is just going to need a continually updated query.
-  // It's here because each component should manage its own state.
   state = {
     query: '',
     filteredBooks: null
@@ -28,8 +25,15 @@ class SearchArea extends React.Component {
   }
 
   render() {
+
+    let books = this.state.filteredBooks
+
+    if(books === null || books.error) {
+      books = []
+    }
+
+    books.sort(sortBy('title'))
     return(
-      // Find out about the function call because you want to set the state on the BooksApp component.
       <div className="search-books">
         <div className="search-books-bar">
           <Link to="/" className="close-search">Close</Link>
@@ -38,7 +42,13 @@ class SearchArea extends React.Component {
           </div>
         </div>
         <div className="search-books-results">
-          <BooksGrid getBookById={this.props.getBookById} onUpdateBook={this.props.onUpdateBook} books={this.state.filteredBooks ? this.state.filteredBooks : []}/>
+          <ol className="books-grid">
+            {
+              books.map((book) => (
+                <Book getBookById={this.props.getBookById} onUpdateBook={this.props.onUpdateBook} book={book ? book : null} key={book.id}/>
+              ))
+            }
+          </ol>
         </div>          
       </div>
     )

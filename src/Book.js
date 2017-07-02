@@ -61,29 +61,4 @@ class Book extends React.Component {
     }
 }
 
-
-class BooksGrid extends React.Component {
-  render() {
-    // Is having such a small component bad practice?
-    let books
-
-    if(!(this.props.books && this.props.books.error)) {
-        books = this.props.books
-    } else {
-        // If we do have an error, ensure the map function doesn't explode
-        books = []
-    }
-
-    return(
-      <ol className="books-grid">
-        {
-            books.map((book) => (
-            <Book getBookById={this.props.getBookById} onUpdateBook={this.props.onUpdateBook} book={book ? book : null} key={book.id}/>
-        ))
-        }
-      </ol>
-    )
-  }
-}
-
-export default BooksGrid
+export default Book
