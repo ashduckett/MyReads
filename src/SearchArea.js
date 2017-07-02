@@ -3,14 +3,7 @@ import escapeRegExp from 'escape-string-regexp'
 import sortBy from 'sort-by'
 import BooksGrid from './BooksGrid'
 import * as BooksAPI from './BooksAPI'
-
-/*
-  On initially rendering the search area, show nothing.
-
-  Each book needs to have its own state so the select tool has an appropriate value.
-
-*/
-
+import { Link } from 'react-router-dom'
 
 class SearchArea extends React.Component {
   // The state for this component is just going to need a continually updated query.
@@ -39,7 +32,7 @@ class SearchArea extends React.Component {
       // Find out about the function call because you want to set the state on the BooksApp component.
       <div className="search-books">
         <div className="search-books-bar">
-          <a className="close-search" onClick={() => this.props.onHideSearch()}>Close</a>
+          <Link to="/" className="close-search">Close</Link>
           <div className="search-books-input-wrapper">
             <input type="text" value={this.state.query} placeholder="Search by title or author" onChange={(event) => this.handleChange(event.target.value)}/>
           </div>

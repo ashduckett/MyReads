@@ -3,7 +3,8 @@ import * as BooksAPI from './BooksAPI'
 import './App.css'
 import SearchArea from './SearchArea'
 import BooksGrid from './BooksGrid'
-
+import { Link } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 // How are we going to handle varying image dimensions?
 // Maybe they can come from the api?
 // How do I get books I am currently reading? Books I want to read and Books I have read?
@@ -102,9 +103,11 @@ class BooksApp extends React.Component {
     return (
 
       <div className="app">
-        {this.state.showSearchPage ? (
+        <Route path="/search" render={() => (
           <SearchArea getBookById={this.getBookById} onUpdateBook={this.updateBook} onHideSearch={this.hideSearchPage}/>
-        ) : (
+        )}/>
+        
+        <Route exact path="/" render={() => (
           <div className="list-books">
             <div className="list-books-title">
               <h1>MyReads</h1>
@@ -116,10 +119,17 @@ class BooksApp extends React.Component {
             </div>
 
             <div className="open-search">
-              <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
+
+              {/*<a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>*/}
+              <Link to="/search">Add a book</Link>
             </div>
           </div>
-        )}
+        )}/>
+
+
+        
+          
+        
       </div>
     )
   }
