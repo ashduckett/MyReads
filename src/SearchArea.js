@@ -45,7 +45,7 @@ class SearchArea extends React.Component {
           </div>
         </div>
         <div className="search-books-results">
-          <BooksGrid onUpdateBook={this.props.onUpdateBook} books={this.state.filteredBooks ? this.state.filteredBooks : []}/>
+          <BooksGrid getBookById={this.props.getBookById} onUpdateBook={this.props.onUpdateBook} books={this.state.filteredBooks ? this.state.filteredBooks : []}/>
         </div>          
       </div>
     )

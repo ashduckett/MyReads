@@ -17,7 +17,7 @@ class BookShelf extends React.Component {
       <div className="bookshelf">
         <h2 className="bookshelf-title">{this.props.title}</h2>
         <div className="bookshelf-books">
-          <BooksGrid onUpdateBook={this.props.onUpdateBook} books={this.props.books ? this.props.books : [] }/>
+          <BooksGrid getBookById={this.props.getBookById} onUpdateBook={this.props.onUpdateBook} books={this.props.books ? this.props.books : [] }/>
         </div>
       </div>
     )
@@ -31,6 +31,7 @@ class BooksApp extends React.Component {
     super(props)
     this.hideSearchPage = this.hideSearchPage.bind(this)
     this.updateBook = this.updateBook.bind(this);
+    this.getBookById = this.getBookById.bind(this);
   }
   
   state = {
@@ -44,6 +45,22 @@ class BooksApp extends React.Component {
     currentlyReading: null,
     allBooks: null
     
+  }
+
+  getBookById(id) {
+    // urrentlyReading = this.state.allBooks.filter((book) => book.shelf === 'currentlyReading')
+    
+    
+    let books 
+    
+    if(this.state.allBooks) {
+      books = this.state.allBooks.filter((book) => book.id === id) 
+      if (books.length > 0) {
+        return books[0]
+      } else {
+        return null
+      }
+    }
   }
 
   componentDidMount() {
@@ -82,21 +99,20 @@ class BooksApp extends React.Component {
         wantToRead = this.state.allBooks.filter((book) => book.shelf === 'wantToRead')
         read = this.state.allBooks.filter((book) => book.shelf === 'read')
       }
-
     return (
 
       <div className="app">
         {this.state.showSearchPage ? (
-          <SearchArea onUpdateBook={this.updateBook} onHideSearch={this.hideSearchPage}/>
+          <SearchArea getBookById={this.getBookById} onUpdateBook={this.updateBook} onHideSearch={this.hideSearchPage}/>
         ) : (
           <div className="list-books">
             <div className="list-books-title">
               <h1>MyReads</h1>
             </div>
             <div className="list-books-content">
-              <BookShelf onUpdateBook={this.updateBook} title="Currently Reading" books={ currentlyReading }/>
-              <BookShelf onUpdateBook={this.updateBook} title="Want to Read" books={ wantToRead }/>
-              <BookShelf onUpdateBook={this.updateBook} title="Read" books={ read }/>
+              <BookShelf getBookById={this.getBookById} onUpdateBook={this.updateBook} title="Currently Reading" books={ currentlyReading }/>
+              <BookShelf getBookById={this.getBookById} onUpdateBook={this.updateBook} title="Want to Read" books={ wantToRead }/>
+              <BookShelf getBookById={this.getBookById} onUpdateBook={this.updateBook} title="Read" books={ read }/>
             </div>
 
             <div className="open-search">
