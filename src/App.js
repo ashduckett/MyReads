@@ -77,7 +77,7 @@ class BooksApp extends React.Component {
     })
   }
 
-  updateBook(event, book, shelf) {
+  updateBook(event, book) {
 
     let self = this
     BooksAPI.update(book, event.target.value).then(function() {
