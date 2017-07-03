@@ -21,10 +21,10 @@ class BooksApp extends React.Component {
   }
 
   getBookById(id) {
-    let books 
-    
+    let books
+
     if(this.state.allBooks) {
-      books = this.state.allBooks.filter((book) => book.id === id) 
+      books = this.state.allBooks.filter((book) => book.id === id)
       if (books.length > 0) {
         return books[0]
       } else {
@@ -82,9 +82,9 @@ class BooksApp extends React.Component {
               <h1>MyReads</h1>
             </div>
             <div className="list-books-content">
-              <BookShelf getBookById={this.getBookById} onUpdateBook={this.updateBook} title="Currently Reading" books={ currentlyReading }/>
-              <BookShelf getBookById={this.getBookById} onUpdateBook={this.updateBook} title="Want to Read" books={ wantToRead }/>
-              <BookShelf getBookById={this.getBookById} onUpdateBook={this.updateBook} title="Read" books={ read }/>
+              <BookShelf getBookById={this.getBookById} onUpdateBook={this.updateBook} title='Currently Reading' books={ currentlyReading }/>
+              <BookShelf getBookById={this.getBookById} onUpdateBook={this.updateBook} title='Want to Read' books={ wantToRead }/>
+              <BookShelf getBookById={this.getBookById} onUpdateBook={this.updateBook} title='Read' books={ read }/>
             </div>
             <div className="open-search">
               <Link to="/search">Add a book</Link>
